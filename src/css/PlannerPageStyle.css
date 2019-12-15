@@ -9,7 +9,7 @@ body {
 
 
 /*Header*/
-header {
+.header {
     width: 100%;
     height: 11vh;
     background-color: #552626;
@@ -554,4 +554,35 @@ canvas {
     height: 100%;
     position: absolute;
     right: 0;
+}
+
+.modal_div {
+    width: 30%;
+    height: 40%;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal_label_title {
+    color: black;
+    font-size: 40px;
+    margin-bottom: 25px;
+}
+
+.modal_label_suptitle {
+    color: black;
+}
+
+.modal_div_enter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal_btn_continue {
+    margin-top: 25px;
 }

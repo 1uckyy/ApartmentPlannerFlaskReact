@@ -1,8 +1,10 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+
 //css
 import '../../css/MainPageStyle.css';
 
 //components
-import React, { Component } from 'react';
 import ChangeLang from '../general/ChangeLang';
 import ViewCapability from './ViewCapability';
 import MenuButton from './MenuButton';
@@ -23,11 +25,13 @@ class MainPage extends Component {
       <div className="blackout_for_bg">
   
         <header>
+        <Link to="/" style={{textDecoration: "none"}}>
           <div id="logo" className="logo">
             <div className="logo_text">
               Apartment Planner
             </div>
           </div>
+        </Link>
           <ChangeLang/>
         </header>
   
@@ -39,9 +43,9 @@ class MainPage extends Component {
         </section>
   
         <section className="menu">
-          <MenuButton text="Вход" icon={sign_in} alt="Войти"/>
-          <MenuButton text="Регистрация" icon={sign_up} alt="Зарегистрироваться"/>
-          <MenuButton text="Начать проектировать" icon={begin_plan} alt="Начать проектировать"/>
+          <MenuButton link="/login" text="Вход" icon={sign_in} alt="Войти"/>
+          <MenuButton link="/registration" text="Регистрация" icon={sign_up} alt="Зарегистрироваться"/>
+          <MenuButton link="/planner" text="Начать проектировать" icon={begin_plan} alt="Начать проектировать"/>
         </section>
       </div>
     )

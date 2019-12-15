@@ -1,3 +1,4 @@
+
 var canvas = document.getElementById("canvas");
 canvas.addEventListener('wheel', zoom);
 canvas.width = canvas.offsetWidth;
@@ -48,8 +49,7 @@ var Rect = function (img, x, y, w, h, angle) {
     this.prevY = y + h / 2;
     this.w = w;
     this.h = h;
-    this.img = new Image();
-    this.img.src = img;
+    this.img = img;
     this.angle = angle;
 }
 
@@ -103,7 +103,9 @@ Rect.prototype = {
     },
 
     draw: function () {
-        context.drawImage(this.img, -this.w / 2, -this.h / 2, this.w, this.h);
+        let srcimg = new Image();
+        srcimg.src = this.img;
+        context.drawImage(srcimg, -this.w / 2, -this.h / 2, this.w, this.h);
     },
 
     stroke: function () {
@@ -125,7 +127,7 @@ function add(imgSrc) {
     item.onmouseout = () => { strokeRect = false }
 
     let deleteItem = document.createElement("img");
-    deleteItem.setAttribute("src", "/images/PlannerPage/remove.png");
+    deleteItem.setAttribute("src", "images/remove.png");
     deleteItem.setAttribute("class", "delete_item_img");
     deleteItem.setAttribute("onclick", "deleteItem(" + count + ")");
 
@@ -525,7 +527,8 @@ setInterval(() => {
 
     //сброс названия
     let itemName = document.getElementById("itemName");
-    itemName.innerText = "";
+    if(itemName != null)
+        itemName.innerText = "";
 
     for (i in rects) {
         rects[i].contextSet();
@@ -533,8 +536,9 @@ setInterval(() => {
         rects[i].draw();
 
         let item = document.getElementById("item" + i);
-        //сброс фона добавленного элемента
-        item.setAttribute("style", "");
+        if(item != null)
+         //сброс фона добавленного элемента
+         item.setAttribute("style", "");
 
         if (isCursorInRect(rects[i])) {
             context.strokeStyle = '#001EFF';
@@ -766,7 +770,7 @@ canvas.onmouseup = function () {
     changeSizeYBottom = false;
 }
 
-//перемещение камеры
+// перемещение камеры
 addEventListener("keydown", moveCamera);
 function moveCamera(e) {
     switch (e.keyCode) {
@@ -784,3 +788,38 @@ function moveCamera(e) {
             break;
     }
 }
+
+var save_btn = () => {
+    console.log(JSON.stringify(rects));
+}
+
+//привязка кнопок
+var clearCntr = document.getElementById("clearContainer");
+clearCntr.setAttribute("onclick", "clearContainer()");
+
+var search = document.getElementById("searchItem");
+search.setAttribute("oninput", "searchItem()");
+
+var input_room_w = document.getElementById("input_room_w");
+input_room_w.setAttribute("oninput", "inputRoomW()");
+
+var input_room_h = document.getElementById("input_room_h");
+input_room_h.setAttribute("oninput", "inputRoomH()");
+
+var camera_up = document.querySelector('div.camera_up');
+camera_up.setAttribute("onclick", "camera.move(0, -100);");
+
+var camera_down = document.querySelector('div.camera_down');
+camera_down.setAttribute("onclick", "camera.move(0, 100);");
+
+var camera_left = document.querySelector('div.camera_left');
+camera_left.setAttribute("onclick", "camera.move(-100, 0);");
+
+var camera_right = document.querySelector('div.camera_right');
+camera_right.setAttribute("onclick", "camera.move(100, 0);");
+
+var plus_scale = document.querySelector('div.plus_scale');
+plus_scale.setAttribute("onclick", "zoomPlusMinus('plus')");
+
+var minus_scale = document.querySelector('div.minus_scale');
+minus_scale.setAttribute("onclick", "zoomPlusMinus('minus')");
