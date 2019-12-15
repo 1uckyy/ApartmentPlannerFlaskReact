@@ -1,7 +1,9 @@
 import pymongo
 from flask import Flask, jsonify
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='',
+            static_folder='client/build')
 
 
 client = pymongo.MongoClient("mongodb+srv://Vlad123:Vlad123@devconnector-e46b3.mongodb.net/test?retryWrites=true&w=majority")
@@ -12,9 +14,8 @@ users_collection = db_apartPlanner["users"]
 #     return item
 
 @app.route('/')
-@app.route('/index')
-def main():
-    return '1234'
+def root():
+    return app.send_static_file('index.html')
 
 @app.route('/api/users')
 def index():
