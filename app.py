@@ -11,7 +11,10 @@ users_collection = db_apartPlanner["users"]
 # for item in users_collection.find():
 #     return item
 
-
+@app.route('/')
+@app.route('/index')
+def main():
+    return '1234'
 
 @app.route('/api/users')
 def index():
