@@ -1,5 +1,6 @@
 import pymongo
-from flask import Flask, jsonify, render_template
+import os
+from flask import Flask, jsonify, render_template, send_from_directory
 
 app = Flask(__name__, template_folder="client/build", static_folder="client/build/static")
 
@@ -11,11 +12,15 @@ users_collection = db_apartPlanner["users"]
 # for item in users_collection.find():
 #     return item
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    """ This is a catch all that is required for react-router """
-    return render_template('index.html')
+root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "client", "build")
+
+@app.route('/<path:path>', methods=['GET'])
+def static_proxy(path):
+    return send_from_directory(root, path)
+
+@app.route('/', methods=['GET'])
+def redirect_to_index():
+    return send_from_directory(root, 'index.html')
 
 @app.route('/api/users')
 def index():
