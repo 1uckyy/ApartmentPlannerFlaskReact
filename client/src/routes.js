@@ -4,6 +4,7 @@ import MainPage from './components/mainpage/MainPage.jsx';
 import PlannerPage from './components/plannerpage/PlannerPage.jsx';
 import Login from './components/reglog/Login';
 import Registration from './components/reglog/Registration';
+import ProfilePage from './components/profilepage/ProfilePage'
 
 const createRoutes = () => (
     <Router>
@@ -11,6 +12,8 @@ const createRoutes = () => (
       <Route exact path="/planner" component={PlannerPage}/>
       <Route exact path="/login" component={Login}/>
       <Route exact path="/registration" component={Registration}/>
+      <Route exact path="/profile" component={ProfilePage}/>
+      <Route path="/planner/:id" component={PlannerPage}/>
     </Router>
 );
 

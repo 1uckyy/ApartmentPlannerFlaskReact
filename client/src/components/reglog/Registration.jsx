@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 //components
 import ChangeLang from '../general/ChangeLang';
 
+//functions
+import { register } from './UserFunctions'
+
 class Registration extends Component {
 
     constructor() {
@@ -25,17 +28,16 @@ class Registration extends Component {
     onSubmit (e) {
         e.preventDefault()
 
-        const user = {
+        const newUser = {
             first_name: this.state.first_name,
             last_name: this.state.last_name,
             email: this.state.email,
             password: this.state.password
         }
 
-        // register(user).then(res => {
-        //     if(res)
-        //         this.props.history.push(`/login`);
-        // })
+        register(newUser).then(res => {
+            this.props.history.push(`/login`)
+        })
     }
 
 
@@ -43,13 +45,13 @@ class Registration extends Component {
         return (
         <>
             <header id="header" className="header">
-                <Link to="/" style={{textDecoration: "none"}}>
                 <div className="logo_text_around">
+                <Link to="/" style={{textDecoration: "none"}}>
                     <div id="logo" className="logo_text">
                         Apartment Planner
                     </div>
-                </div>
                 </Link>
+                </div>
 
                 <ChangeLang />
             </header>

@@ -586,3 +586,13 @@ canvas {
 .modal_btn_continue {
     margin-top: 25px;
 }
+
+.profile_email {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 80px;
+    color: white;
+    font-family: 'Mina';
+    text-decoration: underline;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 //components
 import ChangeLang from '../general/ChangeLang';
@@ -21,6 +22,13 @@ import table from '../../images/PlannerPage/FurnitureItems/table.png';
 
 class PlannerPage extends Component {
 
+    constructor() {
+        super()
+        this.state = {
+            email: '',
+        }
+    }
+
     //modal window open?
     state = {
         isModalOpen: false
@@ -32,6 +40,7 @@ class PlannerPage extends Component {
     };
 
     componentDidMount () {
+        //<add script>
         const script = document.createElement("script");
         script.setAttribute("id", "LogicScript");
     
@@ -39,6 +48,16 @@ class PlannerPage extends Component {
         script.async = true;
     
         document.body.appendChild(script);
+        //</add script>
+
+        //add email
+        if(localStorage.usertoken){
+            const token = localStorage.usertoken
+            const decoded = jwt_decode(token)
+            this.setState({
+                email: decoded.identity.email,
+            })
+        }
     }
 
     componentWillUnmount() {
@@ -62,7 +81,7 @@ class PlannerPage extends Component {
             {/* render modal window */}
             {this.state.isModalOpen &&
                 <Modal onClose={this.toggleModal}>
-                    <div className="modal_div">
+                    {/* <div className="modal_div">
                         <label className="modal_label_title">Вход</label>
                         <div>
                             <div className="modal_div_enter">
@@ -75,9 +94,19 @@ class PlannerPage extends Component {
                             </div>
                         </div>
                         <button id="btn_continue" className="modal_btn_continue">Продолжить</button>
+                    </div> */}
+                    <div className="modal_div">
+                        <label className="modal_label_title">Введите название проекта</label>
+                        <input id="project_name" type="text"/>
+                        <button id="btn_continue" className="modal_btn_continue">Продолжить</button>
                     </div>
                 </Modal>
             }
+            <Link to="/profile">
+                <div className="profile_email">
+                    {this.state.email}
+                </div>
+            </Link>
             <ChangeLang/>
         </header>
 
