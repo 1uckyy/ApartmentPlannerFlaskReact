@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 //components
 import ChangeLang from '../general/ChangeLang';
@@ -20,13 +21,79 @@ import flower from '../../images/PlannerPage/FurnitureItems/flower.png';
 import sofa from '../../images/PlannerPage/FurnitureItems/sofa.png';
 import table from '../../images/PlannerPage/FurnitureItems/table.png';
 
+//functions
+import { login, register } from '../reglog/UserFunctions'
+
 class PlannerPage extends Component {
 
     constructor() {
         super()
         this.state = {
+            first_name: '',
+            last_name: '',
             email: '',
+            password: '',
+            auth: false,
+            have_acc: true,
         }
+
+        this.onChangeLog = this.onChangeLog.bind(this)
+        this.onSubmitLog = this.onSubmitLog.bind(this)
+        this.onChangeReg = this.onChangeReg.bind(this)
+        this.onSubmitReg = this.onSubmitReg.bind(this)
+        this.onChangeForm = this.onChangeForm.bind(this)
+    }
+
+    onChangeForm (e) {
+        this.setState({ have_acc: !this.state.have_acc });
+    }
+
+    onChangeReg (e) {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    onSubmitReg (e) {
+        e.preventDefault()
+
+        const newUser = {
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            email: this.state.email,
+            password: this.state.password
+        }
+
+        register(newUser).then(res => {
+            this.setState({
+                have_acc: true
+            })
+        })
+    }
+
+    onChangeLog (e) {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    onSubmitLog (e) {
+        e.preventDefault()
+
+        const user = {
+            email: this.state.email,
+            password: this.state.password
+        }
+
+        login(user).then(res => {
+            if (!res.error) {
+                this.setState({
+                    auth: true
+                })
+            }
+        })
+
+        setTimeout(() => {
+            this.setState(state => ({ isModalOpen: !state.isModalOpen }));
+        }, 1000)
+        
+        this.setState(state => ({ isModalOpen: !state.isModalOpen }));
     }
 
     //modal window open?
@@ -39,17 +106,19 @@ class PlannerPage extends Component {
         this.setState(state => ({ isModalOpen: !state.isModalOpen }));
     };
 
-    componentDidMount () {
-        //<add script>
-        const script = document.createElement("script");
-        script.setAttribute("id", "LogicScript");
-    
-        script.src = "LogicScript.js";
-        script.async = true;
-    
-        document.body.appendChild(script);
-        //</add script>
+    componentWillMount() {
+        if(localStorage.usertoken) {
+            this.setState({
+                auth: true
+            })
+        } else {
+            this.setState({
+                auth: false
+            })
+        }
+    }
 
+    componentDidMount () {
         //add email
         if(localStorage.usertoken){
             const token = localStorage.usertoken
@@ -58,14 +127,126 @@ class PlannerPage extends Component {
                 email: decoded.identity.email,
             })
         }
+
+        //скрытое поле с данными загрузочного проекта
+        const textarea_hidden = document.createElement("textarea");
+        textarea_hidden.setAttribute("style", "display: none;");
+        textarea_hidden.setAttribute("id", "textarea_hidden");
+        document.body.appendChild(textarea_hidden);
+
+        if(this.props.match.params.id != null) {
+            //test
+            axios
+            .post("../getproject", {
+                'project_name': this.props.match.params.id
+            })
+            .then(response => {
+                let list = response.data['array_rects']
+                textarea_hidden.innerText = JSON.stringify(list);
+            })
+        }
+
+        //<add script>
+        const script = document.createElement("script");
+        script.setAttribute("id", "LogicScript");
+    
+        if(this.props.match.params.id)
+            script.src = "../LogicScript.js";
+        else
+            script.src = "LogicScript.js";
+
+        script.async = true;
+    
+        document.body.appendChild(script);
+        //</add script>
     }
 
     componentWillUnmount() {
         const script = document.getElementById("LogicScript");
         document.body.removeChild(script);
+
+        const textarea_hidden = document.getElementById("textarea_hidden");
+        document.body.removeChild(textarea_hidden);
     }
 
     render () {
+
+    const register_user = (
+            <>
+                <div className="modal_div">
+                <form noValidate onSubmit={this.onSubmitReg}>
+                    <label className="modal_label_title">Регистрация</label>
+                    <div>
+                        <div className="modal_div_enter">
+                            <label className="modal_label_suptitle">Имя</label>
+                            <input type="text" className="form-control" name="first_name" placeholder="Введите имя"
+                                value={this.state.first_name} onChange={this.onChangeReg} />
+                        </div>
+                        <div className="modal_div_enter">
+                            <label className="modal_label_suptitle">Фамилия</label>
+                            <input type="text" className="form-control" name="last_name" placeholder="Введите фамилию"
+                                value={this.state.last_name} onChange={this.onChangeReg} />
+                        </div>
+                        <div className="modal_div_enter">
+                            <label className="modal_label_suptitle">Адрес Email</label>
+                            <input type="email" className="form-control" name="email" placeholder="Введите Email"
+                                value={this.state.email} onChange={this.onChangeReg} />
+                        </div>
+                        <div className="modal_div_enter">
+                        <label className="modal_label_suptitle">Пароль</label>
+                            <input type="password" className="form-control" name="password" placeholder="Введите пароль"
+                                value={this.state.password} onChange={this.onChangeReg} />
+                        </div>
+                    </div>
+                    <button type="submit" className="modal_btn_continue">Зарегистрироваться</button>
+                    </form>
+                    <span className="change_form" onClick={this.onChangeForm}>Войти</span>
+                </div>
+            </>
+    )
+
+    const login_user = (
+        <>
+            <div className="modal_div">
+                <form noValidate onSubmit={this.onSubmitLog}>
+                        <label className="modal_label_title">Вход</label>
+                        <div>
+                            <div className="modal_div_enter">
+                                <label className="modal_label_suptitle">Логин</label>
+                                <input type="email"
+                                    className="form-control"
+                                    name="email"
+                                    placeholder="Enter Email"
+                                    value={this.state.email}
+                                    onChange={this.onChangeLog} />
+                            </div>
+                            <div className="modal_div_enter">
+                                <label className="modal_label_suptitle" style={{marginRight: "10px"}}>Пароль</label>
+                                <input type="password"
+                                    className="form-control"
+                                    name="password"
+                                    placeholder="Enter Password"
+                                    value={this.state.password}
+                                    onChange={this.onChangeLog} />
+                            </div>
+                        </div>
+                        <button type="submit" className="modal_btn_continue">Продолжить</button>
+                </form>
+                <span className="change_form" onClick={this.onChangeForm}>Зарегистрироваться</span>
+            </div>
+        </>
+    )
+
+    const Continue = (
+        <>
+            <div className="modal_div">
+                <label className="modal_label_title">Введите название проекта</label>
+                <input id="project_name" type="text"/>
+                <Link to="/profile"><button id="btn_continue" className="modal_btn_continue">Продолжить</button></Link>
+            </div>
+        </>
+    )
+
     return (
     <>
         <header id="header" className="header">
@@ -77,34 +258,23 @@ class PlannerPage extends Component {
                 </Link>
             </div>
             {/* button for modal window */}
-            <button onClick={this.toggleModal} id="save_btn" className="save_btn">Сохранить</button>
+            <button onClick={this.toggleModal} className="save_btn">Сохранить</button>
             {/* render modal window */}
             {this.state.isModalOpen &&
                 <Modal onClose={this.toggleModal}>
-                    {/* <div className="modal_div">
-                        <label className="modal_label_title">Вход</label>
-                        <div>
-                            <div className="modal_div_enter">
-                                <label className="modal_label_suptitle">Логин</label>
-                                <input type="text"/>
-                            </div>
-                            <div className="modal_div_enter">
-                                <label className="modal_label_suptitle" style={{marginRight: "10px"}}>Пароль</label>
-                                <input type="password"/>
-                            </div>
-                        </div>
-                        <button id="btn_continue" className="modal_btn_continue">Продолжить</button>
-                    </div> */}
-                    <div className="modal_div">
-                        <label className="modal_label_title">Введите название проекта</label>
-                        <input id="project_name" type="text"/>
-                        <button id="btn_continue" className="modal_btn_continue">Продолжить</button>
-                    </div>
+                    {this.state.auth ? Continue : this.state.have_acc ? login_user : register_user}
                 </Modal>
             }
             <Link to="/profile">
-                <div className="profile_email">
-                    {this.state.email}
+                <div className="short_info">
+                    <div className="info_text">Profile:</div>
+                    <div className="profile_email">
+                        {this.state.email ? this.state.email : 'empty'}
+                    </div>
+                    <div className="info_text">Project:</div>
+                    <div className="project_name">
+                        {this.props.match.params.id ? this.props.match.params.id : 'empty'}
+                    </div>
                 </div>
             </Link>
             <ChangeLang/>

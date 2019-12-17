@@ -587,12 +587,36 @@ canvas {
     margin-top: 25px;
 }
 
-.profile_email {
+.short_info {
+    display: flex;
+    justify-content: center;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 80px;
     color: white;
     font-family: 'Mina';
+}
+
+.profile_email {
+    margin-right: 10px;
     text-decoration: underline;
+}
+
+.project_name {
+    text-decoration: underline;
+}
+
+.info_text {
+    color: "white";
+    text-decoration: "none";
+    font-family: "Mina";
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.change_form {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
 }

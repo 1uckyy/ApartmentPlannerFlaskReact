@@ -69,31 +69,45 @@ def save_prj():
             'array_rects': array
         })
 
-    
-    # projects = mongo.db.projects
-    # email = request.get_json()['email']
-    # x = request.get_json()['x']
-    # y = request.get_json()['y']
-    # w = request.get_json()['w']
-    # h = request.get_json()['h']
-    # img = request.get_json()['img']
-    # angle = request.get_json()['angle']
 
-    # project_id = projects.insert({
-    #         'first_name': first_name,
-    #         'last_name': last_name,
-    #         'email': email,
-    #         'password': password,
-    #         'created': created 
-    #     })
+# user projects
+@app.route('/getprojects', methods=["POST"])
+def get_prjs():
+    projects = mongo.db.projects
 
-    # new_user = users.find_one({'_id': user_id})
+    project_author = request.get_json()['project_author']
 
-    # result = {'email': new_user['email'] + ' registered'}
+    # for x in projects.find({},{ 'project_author': project_author }):
+    #     print(x['array_rects'])
 
-    # return jsonify({'result' : result})
+    result = []
+
+    query = { 'project_author': project_author }
+
+    for field in projects.find(query):
+        result.append({ 'project_name': field['project_name'] })
+
+    # for field in projects.find(query):
+    #     result.append({'_id': str(field['_id']), 'project_author': field['project_author'], 'project_name': field['project_name'], 'array_rects': field['array_rects']})
+    return jsonify(result)
 
 
+# get project
+@app.route('/getproject', methods=["POST"])
+def get_prj():
+    projects = mongo.db.projects
+
+    project_name = request.get_json()['project_name']
+
+
+    result = {}
+
+    query = { 'project_name': project_name }
+
+    for field in projects.find(query):
+        result = { 'array_rects': field['array_rects'] }
+
+    return jsonify(result)
 
 
 # register

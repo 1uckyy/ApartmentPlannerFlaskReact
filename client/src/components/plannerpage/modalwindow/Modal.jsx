@@ -15,7 +15,8 @@ export default class Modal extends React.Component {
 
     componentDidMount() {
         var btn_continue = document.getElementById("btn_continue");
-        btn_continue.setAttribute("onclick", "save_btn()");
+        if(btn_continue)
+            btn_continue.setAttribute("onclick", "save_btn()");
     }
 
     render() {

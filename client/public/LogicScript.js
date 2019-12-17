@@ -1,4 +1,3 @@
-
 var canvas = document.getElementById("canvas");
 canvas.addEventListener('wheel', zoom);
 canvas.width = canvas.offsetWidth;
@@ -113,8 +112,11 @@ Rect.prototype = {
 
 var i, rects = [], count = 0, strokeRect = false, namesArray = [];
 
-function add(imgSrc) {
-    rects.push(new Rect(imgSrc, 0, 0, 1000, 1000, 0));
+//название проекта
+var project_name_name = document.querySelector("div.project_name").innerText;
+
+function add(imgSrc, x, y, w, h, angle) {
+    rects.push(new Rect(imgSrc, x, y, w, h, angle));
 
     let item = document.createElement("div");
     item.setAttribute("class", "added_elem");
@@ -125,7 +127,10 @@ function add(imgSrc) {
     item.onmouseout = () => { strokeRect = false }
 
     let deleteItem = document.createElement("img");
-    deleteItem.setAttribute("src", "images/remove.png");
+    if(project_name_name != "empty")
+        deleteItem.setAttribute("src", "../images/remove.png");
+    else
+        deleteItem.setAttribute("src", "images/remove.png");
     deleteItem.setAttribute("class", "delete_item_img");
     deleteItem.setAttribute("onclick", "deleteItem(" + count + ")");
 
@@ -787,6 +792,7 @@ function moveCamera(e) {
     }
 }
 
+//сохранение проекта
 var save_btn = () => {
     let name_project_input = document.getElementById("project_name");
 
@@ -841,3 +847,38 @@ plus_scale.setAttribute("onclick", "zoomPlusMinus('plus')");
 
 var minus_scale = document.querySelector('div.minus_scale');
 minus_scale.setAttribute("onclick", "zoomPlusMinus('minus')");
+
+
+
+//загрузка проекта из textarea
+setTimeout(() => {
+    var textarea_hidden = document.getElementById("textarea_hidden");
+    textarea_hidden = document.getElementById("textarea_hidden");
+    var list = JSON.parse(textarea_hidden.value);
+        for(let a = 0; a < list.length; a++){
+            add(list[a]['img'], list[a]['x'], list[a]['y'], list[a]['w'], list[a]['h'], list[a]['angle'],);
+        }
+}, 1000)
+
+
+
+//загрузка проекта нормальным запросом не получилась
+// let project_name_name = document.querySelector("div.project_name").innerText;
+// if(project_name_name != "empty") {
+// test_fun = function() {
+//     let json_file = {
+//         project_name: "sad"
+//     }
+
+//     let response = fetch('../getproject', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(json_file)
+//         });
+    
+//         console.log('1');
+//         console.log(response.data);
+//     }
+// }

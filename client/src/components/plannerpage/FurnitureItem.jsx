@@ -8,7 +8,7 @@ class FurnitureItem extends Component {
         var node = furnitureItemsContainer.firstChild;
         while(count !== 6) {
             if(count == this.props.number) {
-                node.querySelector('div.circle_add').setAttribute("onclick", "add('" + this.props.src + "')");
+                node.querySelector('div.circle_add').setAttribute("onclick", "add('" + this.props.src + "', 0, 0, 1000, 1000, 0)");
             }
 
             node = node.nextSibling;
