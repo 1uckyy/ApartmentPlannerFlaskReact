@@ -45,8 +45,6 @@ var changeSizeYBottom = false;
 var Rect = function (img, x, y, w, h, angle) {
     this.x = x;
     this.y = y;
-    this.prevX = x + w / 2;
-    this.prevY = y + h / 2;
     this.w = w;
     this.h = h;
     this.img = img;
@@ -790,7 +788,27 @@ function moveCamera(e) {
 }
 
 var save_btn = () => {
-    console.log(JSON.stringify(rects));
+    let name_project_input = document.getElementById("project_name");
+
+    let author_project = document.querySelector("div.profile_email");
+
+    let json_file = {
+        project_author: author_project.innerText,
+        project_name: name_project_input.value,
+        array_rects: rects,
+    }
+
+    let response = fetch('save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json_file)
+      });
+    // console.log(JSON.stringify(json_file));
+
+    // fetch('api/test')
+    // .then(response => console.log(response.text()))
 }
 
 //привязка кнопок
