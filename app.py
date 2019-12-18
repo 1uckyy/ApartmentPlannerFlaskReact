@@ -53,6 +53,20 @@ def redirect_to_index():
 def index():
     return '1234'
 
+# update project
+@app.route('/update', methods=['PUT'])
+def update_prj():
+    projects = mongo.db.projects 
+    project_name = request.get_json()['project_name']
+    array_rects = request.get_json()['array_rects']
+
+    projects.find_one_and_update({'project_name': project_name}, {"$set": {"array_rects": array_rects}}, upsert=False)
+
+    new_prj = projects.find_one({'project_name': project_name})
+
+    result = {'project_name' : new_prj['project_name']}
+
+    return jsonify({"result": result})
 
 # save project
 @app.route('/save', methods=["POST"])
@@ -63,11 +77,23 @@ def save_prj():
     project_name = request.get_json()['project_name']
     array = request.get_json()['array_rects']
 
-    projects.insert({
+    query = { 'project_name': project_name }
+
+    response = projects.find_one(query)
+
+    result = {}
+
+    if response == None:
+        result = {'message' : 'Проект сохранён.'}
+        projects.insert({
             'project_author': project_author,
             'project_name': project_name,
             'array_rects': array
         })
+    else: 
+        result = {'message' : 'Такое название уже существует.'}
+
+    return jsonify({'result' : result})
 
 
 # user projects
@@ -77,9 +103,6 @@ def get_prjs():
 
     project_author = request.get_json()['project_author']
 
-    # for x in projects.find({},{ 'project_author': project_author }):
-    #     print(x['array_rects'])
-
     result = []
 
     query = { 'project_author': project_author }
@@ -87,8 +110,6 @@ def get_prjs():
     for field in projects.find(query):
         result.append({ 'project_name': field['project_name'] })
 
-    # for field in projects.find(query):
-    #     result.append({'_id': str(field['_id']), 'project_author': field['project_author'], 'project_name': field['project_name'], 'array_rects': field['array_rects']})
     return jsonify(result)
 
 
@@ -108,6 +129,20 @@ def get_prj():
         result = { 'array_rects': field['array_rects'] }
 
     return jsonify(result)
+
+# delete project
+@app.route('/deleteproject/<id>', methods=['DELETE'])
+def delete_task(id):
+    projects = mongo.db.projects 
+
+    response = projects.delete_one({'project_name': id})
+
+    if response.deleted_count == 1:
+        result = {'message' : 'record deleted'}
+    else: 
+        result = {'message' : 'no record found'}
+    
+    return jsonify({'result' : result})
 
 
 # register

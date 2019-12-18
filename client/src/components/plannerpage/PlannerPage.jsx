@@ -14,6 +14,7 @@ import '../../css/PlannerPageStyle.css';
 //images
 import recycle_bin from '../../images/PlannerPage/recycle_bin.png';
 import search from '../../images/PlannerPage/search.png';
+
 //images furniture items
 import bed from '../../images/PlannerPage/FurnitureItems/bed.png';
 import chair from '../../images/PlannerPage/FurnitureItems/chair.png';
@@ -103,7 +104,13 @@ class PlannerPage extends Component {
 
     //change statement for modal open
     toggleModal = () => {
-        this.setState(state => ({ isModalOpen: !state.isModalOpen }));
+        let name_project_input = document.querySelector('div.project_name');
+        let profile_email_input = document.querySelector('div.profile_email');
+        if(name_project_input.innerText == "empty" || profile_email_input.innerText == "empty")
+            this.setState(state => ({ isModalOpen: !state.isModalOpen }));
+        else {
+            this.props.history.push(`/profile`);
+        }
     };
 
     componentWillMount() {
@@ -119,6 +126,9 @@ class PlannerPage extends Component {
     }
 
     componentDidMount () {
+        var btn_save = document.getElementById("btn_save");
+        btn_save.setAttribute("onclick", "update_btn()");
+
         //add email
         if(localStorage.usertoken){
             const token = localStorage.usertoken
@@ -173,77 +183,118 @@ class PlannerPage extends Component {
 
     const register_user = (
             <>
-                <div className="modal_div">
-                <form noValidate onSubmit={this.onSubmitReg}>
-                    <label className="modal_label_title">Регистрация</label>
-                    <div>
-                        <div className="modal_div_enter">
-                            <label className="modal_label_suptitle">Имя</label>
-                            <input type="text" className="form-control" name="first_name" placeholder="Введите имя"
-                                value={this.state.first_name} onChange={this.onChangeReg} />
+                <div className="modal-dialog" className="modal_div" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style={{ color: "black" }}>Регистрация</h5>
                         </div>
-                        <div className="modal_div_enter">
-                            <label className="modal_label_suptitle">Фамилия</label>
-                            <input type="text" className="form-control" name="last_name" placeholder="Введите фамилию"
-                                value={this.state.last_name} onChange={this.onChangeReg} />
+                        <div class="modal-body">
+                        <form noValidate onSubmit={this.onSubmitReg}>
+                            <div className="form-group">
+                                <label htmlFor="first_name" className="modal_label_suptitle">Имя</label>
+                                <input type="text"
+                                    className="form-control"
+                                    name="first_name"
+                                    placeholder="Введите имя"
+                                    value={this.state.first_name}
+                                    onChange={this.onChangeReg} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="last_name" className="modal_label_suptitle">Фамилия</label>
+                                <input type="text"
+                                    className="form-control"
+                                    name="last_name"
+                                    placeholder="Введите фамилию"
+                                    value={this.state.last_name}
+                                    onChange={this.onChangeReg} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="email" className="modal_label_suptitle">Адрес Email</label>
+                                <input type="email"
+                                    className="form-control"
+                                    name="email"
+                                    placeholder="Введите Email"
+                                    value={this.state.email}
+                                    onChange={this.onChangeReg} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="password" className="modal_label_suptitle">Пароль</label>
+                                <input type="password"
+                                    className="form-control"
+                                    name="password"
+                                    placeholder="Введите пароль"
+                                    value={this.state.password}
+                                    onChange={this.onChangeReg} />
+                            </div>
+                            <button type="submit" className="btn btn-lg btn-primary">
+                                Продолжить
+                            </button>
+                        </form>
                         </div>
-                        <div className="modal_div_enter">
-                            <label className="modal_label_suptitle">Адрес Email</label>
-                            <input type="email" className="form-control" name="email" placeholder="Введите Email"
-                                value={this.state.email} onChange={this.onChangeReg} />
-                        </div>
-                        <div className="modal_div_enter">
-                        <label className="modal_label_suptitle">Пароль</label>
-                            <input type="password" className="form-control" name="password" placeholder="Введите пароль"
-                                value={this.state.password} onChange={this.onChangeReg} />
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link" onClick={this.onChangeForm}>Войти</button>
                         </div>
                     </div>
-                    <button type="submit" className="modal_btn_continue">Зарегистрироваться</button>
-                    </form>
-                    <span className="change_form" onClick={this.onChangeForm}>Войти</span>
-                </div>
+            </div>
             </>
     )
 
     const login_user = (
         <>
-            <div className="modal_div">
-                <form noValidate onSubmit={this.onSubmitLog}>
-                        <label className="modal_label_title">Вход</label>
-                        <div>
-                            <div className="modal_div_enter">
-                                <label className="modal_label_suptitle">Логин</label>
-                                <input type="email"
-                                    className="form-control"
-                                    name="email"
-                                    placeholder="Enter Email"
-                                    value={this.state.email}
-                                    onChange={this.onChangeLog} />
-                            </div>
-                            <div className="modal_div_enter">
-                                <label className="modal_label_suptitle" style={{marginRight: "10px"}}>Пароль</label>
-                                <input type="password"
-                                    className="form-control"
-                                    name="password"
-                                    placeholder="Enter Password"
-                                    value={this.state.password}
-                                    onChange={this.onChangeLog} />
-                            </div>
+            <div className="modal-dialog" className="modal_div" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style={{ color: "black" }}>Вход</h5>
                         </div>
-                        <button type="submit" className="modal_btn_continue">Продолжить</button>
-                </form>
-                <span className="change_form" onClick={this.onChangeForm}>Зарегистрироваться</span>
+                        <div class="modal-body">
+                        <form noValidate onSubmit={this.onSubmitLog}>
+                                <div className="form-group">
+                                    <label htmlFor="email" className="modal_label_suptitle">Адрес Email</label>
+                                    <input type="email"
+                                        className="form-control"
+                                        name="email"
+                                        placeholder="Введите Email"
+                                        value={this.state.email}
+                                        onChange={this.onChangeLog} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password" className="modal_label_suptitle">Пароль</label>
+                                    <input type="password"
+                                        className="form-control"
+                                        name="password"
+                                        placeholder="Введите пароль"
+                                        value={this.state.password}
+                                        onChange={this.onChangeLog} />
+                                </div>
+                                <button type="submit" className="btn btn-lg btn-primary">
+                                    Продолжить
+                                </button>
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link" onClick={this.onChangeForm}>Зарегистрироваться</button>
+                        </div>
+                    </div>
             </div>
         </>
     )
 
     const Continue = (
         <>
-            <div className="modal_div">
-                <label className="modal_label_title">Введите название проекта</label>
-                <input id="project_name" type="text"/>
-                <Link to="/profile"><button id="btn_continue" className="modal_btn_continue">Продолжить</button></Link>
-            </div>
+                <div class="modal-dialog" className="modal_div_continue" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style={{ color: "black" }}>Введите название проекта</h5>
+                        </div>
+                        <div class="modal-body">
+                            <input id="project_name" type="text" className="form-control"/>
+                            <div id="error_text" className="default_not_error">Проект с таким названием уже существует!</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btn_continue" type="button" class="btn btn-primary">Продолжить</button>
+                        </div>
+                    </div>
+                </div>
         </>
     )
 
@@ -258,7 +309,7 @@ class PlannerPage extends Component {
                 </Link>
             </div>
             {/* button for modal window */}
-            <button onClick={this.toggleModal} className="save_btn">Сохранить</button>
+            <button onClick={this.toggleModal} className="save_btn" id="btn_save">Сохранить</button>
             {/* render modal window */}
             {this.state.isModalOpen &&
                 <Modal onClose={this.toggleModal}>

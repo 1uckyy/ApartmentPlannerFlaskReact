@@ -14,6 +14,7 @@ class ProfilePage extends Component {
             email: '',
             projects: []
         }
+        this.onDelete = this.onDelete.bind(this);
     }
 
     componentDidMount () {
@@ -44,6 +45,19 @@ class ProfilePage extends Component {
         })
     }
 
+    onDelete(project_name) {
+        axios
+        .delete('deleteproject/'+project_name, {
+            headers: { 'Content-type': 'application/json' }
+        })
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((response) => {
+            console.log(response)
+        })
+    }
+
     render () {
         return (
             <>
@@ -58,31 +72,48 @@ class ProfilePage extends Component {
 
                     <ChangeLang />
                 </header>
-                <table className="table col-md-6 mx-auto">
-                    <tbody>
-                        <tr>
-                            <td>Имя:</td>
-                            <td>{this.state.first_name}</td>
-                        </tr>
-                        <tr>
-                            <td>Фамилия:</td>
-                            <td>{this.state.last_name}</td>
-                        </tr>
-                        <tr>
-                            <td>Email:</td>
-                            <td>{this.state.email}</td>
-                        </tr>
-                        <tr>
-                            <td>Projects:</td>
-                            {this.state.projects.map(function(item) {
-                                const a = "/planner/"+item
-                                return <Link to={a} >
-                                <td key={item}>{item}</td>
-                            </Link>
-                            })}
-                        </tr>
-                    </tbody>
-                </table>
+                <div style={{flexGrow:1, overflow:'auto', marginTop: 20, backgroundColor: "white"}}>
+                        <div className="col-sm-8 mx-auto">
+                            <h1 className="text-center">Информация о профиле</h1>
+                        </div>
+                        <table className="table col-md-6 mx-auto">
+                            <tbody>
+                                <tr>
+                                    <td>Имя:</td>
+                                    <td>{this.state.first_name}</td>
+                                </tr>
+                                <tr>
+                                    <td>Фамилия:</td>
+                                    <td>{this.state.last_name}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>{this.state.email}</td>
+                                </tr>
+                                </tbody>
+                        </table>
+                        <div className="col-sm-8 mx-auto" style={{marginTop:"20px"}}>
+                            <h1 className="text-center">Ваши проекты:</h1>
+                        </div>
+                        <table className="table col-md-6 mx-auto">
+                            <tbody>
+                                {this.state.projects.map((item, i) => {
+                                    const a = "/planner/"+item
+                                    return <tr>
+                                    <td align="right" style={{width: "50%"}}><Link to={a} >{item}</Link></td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" onClick={() => this.onDelete(item)}>Удалить</button>
+                                    </td>
+                                    </tr>
+                                })}
+                            </tbody>
+                        </table>
+                        <table className="table col-md-6 mx-auto">
+                            <tbody>
+                                <tr><td align="center" style={{width: "100%"}}><Link to="/planner"><button type="button" class="btn btn-success">Новый проект</button></Link></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
             </>
         )
     }

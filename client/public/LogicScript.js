@@ -603,25 +603,25 @@ setInterval(() => {
     if (selected.h >= 200 && selected.w >= 200 && moveItem == false) {
         //изменение размера объекта
         //влево
-        //if (changeSizeXLeft) {
-        //    if (selected.x > mouse.x) {
-        //        selected.w += selected.x - mouse.x;
-        //        selected.x = mouse.x;
-        //    }
-        //    if (selected.x < mouse.x) {
-        //        selected.w -= mouse.x - selected.x;
-        //        selected.x = mouse.x;
-        //    }
-        //}
+        if (changeSizeXLeft) {
+           if (selected.x > mouse.x) {
+               selected.w += selected.x - mouse.x;
+               selected.x = mouse.x;
+           }
+           if (selected.x < mouse.x) {
+               selected.w -= mouse.x - selected.x;
+               selected.x = mouse.x;
+           }
+        }
 
         //вправо
-        //if (changeSizeXRight) {
-        //    let selectedXRight = selected.x + selected.w;
-        //    if (selectedXRight > mouse.x)
-        //        selected.w -= selectedXRight - mouse.x;
-        //    if (selectedXRight < mouse.x)
-        //        selected.w += mouse.x - selectedXRight;
-        //}
+        if (changeSizeXRight) {
+           let selectedXRight = selected.x + selected.w;
+           if (selectedXRight > mouse.x)
+               selected.w -= selectedXRight - mouse.x;
+           if (selectedXRight < mouse.x)
+               selected.w += mouse.x - selectedXRight;
+        }
 
         let rectRight = selected.getXWithRotate() * (-1) - selected.getCenterX() * (-2);
         let rectBottom = selected.getYWithRotate() * (-1) - selected.getCenterY() * (-2);
@@ -640,13 +640,13 @@ setInterval(() => {
         }
 
         //вниз
-        //if (changeSizeYBottom) {
-        //    let selectedYBottom = selected.y + selected.h;
-        //    if (selectedYBottom > mouse.y)
-        //        selected.h -= selectedYBottom - mouse.y;
-        //    if (selectedYBottom < mouse.y)
-        //        selected.h += mouse.y - selectedYBottom;
-        //}
+        if (changeSizeYBottom) {
+           let selectedYBottom = selected.y + selected.h;
+           if (selectedYBottom > mouse.y)
+               selected.h -= selectedYBottom - mouse.y;
+           if (selectedYBottom < mouse.y)
+               selected.h += mouse.y - selectedYBottom;
+        }
     }
 
     //перемещение объекта
@@ -712,7 +712,7 @@ canvas.onmousedown = function () {
                 //else
                 //    moveItem = false;
 
-                moveItem = true;
+                moveItem = false;
 
 
                 let rectRight = selected.getXWithRotate() * (-1) - selected.getCenterX() * (-2);
@@ -728,17 +728,17 @@ canvas.onmousedown = function () {
 
                 //let selectedByCursor = false;
 
-                //if (selected.angle <= 90 || selected.angle > 270) {
-                //    if ((mouse.y > (Math.tan(selected.angle * Math.PI / 180) * mouse.x + b)) && (mouse.y < (Math.tan(selected.angle * Math.PI / 180) * mouse.x + b_opposite)) && (mouse.x > - (Math.tan(selected.angle * Math.PI / 180) * mouse.y - bOtherAngle)) && (mouse.x < - (Math.tan(selected.angle * Math.PI / 180) * mouse.y - b_oppositeOtherAngle))) {
-                //        canvas.style.cursor = "move";
-                //        selectedByCursor = true;
-                //    }
-                //} else {
-                //    if ((mouse.y < (Math.tan(selected.angle * Math.PI / 180) * mouse.x + b)) && (mouse.y > (Math.tan(selected.angle * Math.PI / 180) * mouse.x + b_opposite)) && (mouse.x < - (Math.tan(selected.angle * Math.PI / 180) * mouse.y - bOtherAngle)) && (mouse.x > - (Math.tan(selected.angle * Math.PI / 180) * mouse.y - b_oppositeOtherAngle))) {
-                //        canvas.style.cursor = "move";
-                //        selectedByCursor = true;
-                //    }
-                //}
+                if (selected.angle <= 90 || selected.angle > 270) {
+                   if ((mouse.y > (Math.tan(selected.angle * Math.PI / 180) * mouse.x + b)) && (mouse.y < (Math.tan(selected.angle * Math.PI / 180) * mouse.x + b_opposite)) && (mouse.x > - (Math.tan(selected.angle * Math.PI / 180) * mouse.y - bOtherAngle)) && (mouse.x < - (Math.tan(selected.angle * Math.PI / 180) * mouse.y - b_oppositeOtherAngle))) {
+                       canvas.style.cursor = "move";
+                       moveItem = true;
+                   }
+                } else {
+                   if ((mouse.y < (Math.tan(selected.angle * Math.PI / 180) * mouse.x + b)) && (mouse.y > (Math.tan(selected.angle * Math.PI / 180) * mouse.x + b_opposite)) && (mouse.x < - (Math.tan(selected.angle * Math.PI / 180) * mouse.y - bOtherAngle)) && (mouse.x > - (Math.tan(selected.angle * Math.PI / 180) * mouse.y - b_oppositeOtherAngle))) {
+                       canvas.style.cursor = "move";
+                       moveItem = true;
+                   }
+                }
 
                 for (var i = 0; i < 20; i++) {
                     if (mouse.y < (Math.tan(selected.angle * Math.PI / 180) * mouse.x + Math.ceil(b) + i)) {
@@ -747,18 +747,22 @@ canvas.onmousedown = function () {
                     }
                 }
 
-                //if (mouse.x - selected.x < 20) {
-                //    changeSizeXLeft = true;
-                //}
-                //if ((selected.x + selected.w) - mouse.x < 20) {
-                //    changeSizeXRight = true;
-                //}
-                //if (mouse.y - selected.y < 20) {
-                //    changeSizeYTop = true;
-                //}
-                //if (((selected.y + selected.h) - mouse.y) < 20) {
-                //    changeSizeYBottom = true;
-                //}
+                if (mouse.x - selected.x < 20) {
+                   changeSizeXLeft = true;
+                   moveItem = false;
+                }
+                if ((selected.x + selected.w) - mouse.x < 20) {
+                   changeSizeXRight = true;
+                   moveItem = false;
+                }
+                if (mouse.y - selected.y < 20) {
+                   changeSizeYTop = true;
+                   moveItem = false;
+                }
+                if (((selected.y + selected.h) - mouse.y) < 20) {
+                   changeSizeYBottom = true;
+                   moveItem = false;
+                }
             }
         }
     }
@@ -794,6 +798,8 @@ function moveCamera(e) {
 
 //сохранение проекта
 var save_btn = () => {
+    let error_text = document.getElementById("error_text");
+
     let name_project_input = document.getElementById("project_name");
 
     let author_project = document.querySelector("div.profile_email");
@@ -803,18 +809,46 @@ var save_btn = () => {
         project_name: name_project_input.value,
         array_rects: rects,
     }
-
-    let response = fetch('save', {
+    
+    fetch('save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(json_file)
-      });
-    // console.log(JSON.stringify(json_file));
+      })
+      .then(function (response) {
+        return response.json();
+    })
+    .then(function (result) {
+        if(result['result']['message'] == 'Такое название уже существует.') {
+            error_text.setAttribute("class", "default_have_error");
+            setTimeout(() => {error_text.setAttribute("class", "default_not_error");}, 1000);
+        } else
+            location.href = "/profile";
+    })
+    .catch (function (error) {
+        console.log('Request failed', error);
+    });
+}
 
-    // fetch('api/test')
-    // .then(response => console.log(response.text()))
+//обновление проекта
+var update_btn = () => {
+    let name_project_input = document.querySelector('div.project_name');
+    if(name_project_input.innerText != "empty") {
+        let json_file = {
+            project_name: name_project_input.innerText,
+            array_rects: rects,
+        }
+
+        let response = fetch('../update', {
+            method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(json_file)
+        });
+    }
 }
 
 //привязка кнопок
@@ -858,7 +892,7 @@ setTimeout(() => {
         for(let a = 0; a < list.length; a++){
             add(list[a]['img'], list[a]['x'], list[a]['y'], list[a]['w'], list[a]['h'], list[a]['angle'],);
         }
-}, 1000)
+}, 1000);
 
 
 

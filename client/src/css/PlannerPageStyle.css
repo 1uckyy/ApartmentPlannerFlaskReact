@@ -101,13 +101,12 @@ body {
 
 .img_added_elem {
     width: 70px;
-    height: 70px;
     padding: 30px 0;
 }
 
 .textfield_added_elem {
     margin-left: 15px;
-    width: 60px;
+    width: 70px;
     border-radius: 5px;
     padding: 5px;
     background-color: lightblue;
@@ -201,6 +200,7 @@ body {
 
 label {
     font-size: 20px;
+    margin-bottom: 0;
 }
 
 input[type=range] {
@@ -221,8 +221,11 @@ input[type=range] {
 }
 
 .text_field_params_box {
-    width: 35px;
-    height: 15px;
+    font-family: 'Source Sans Pro';
+    font-size: 16px;
+    margin-left: 5px;
+    width: 40px;
+    height: 20px;
 }
 
 .slider_box {
@@ -235,8 +238,10 @@ input[type=range] {
 }
 
 .slider_value {
-    margin-top: 5px;
     width: 35px;
+    height: 20px;
+    font-family: 'Source Sans Pro';
+    font-size: 16px;
 }
 
 canvas {
@@ -280,8 +285,7 @@ canvas {
 }
 
 .img_fur_item {
-    width: 100px;
-    height: 107px;
+    height: 70px;
 }
 
 .circle_add {
@@ -325,7 +329,8 @@ canvas {
     width: 15px;
     height: 15px;
     position: absolute;
-    top: 15%;
+    top: 50%;
+    transform: translateY(-50%);
     right: 4%;
 }
 
@@ -335,6 +340,8 @@ canvas {
     background-color: rgb(219, 226, 226);
     padding: 5px;
     outline: none;
+    font-family: 'Source Sans Pro';
+    font-size: 18px;
 }
 
 .change_room_size {
@@ -354,6 +361,8 @@ canvas {
     height: 20px;
     margin: 0 6px;
     border-radius: 5px;
+    font-family: 'Source Sans Pro';
+    font-size: 16px;
 }
 
 .label_wh {
@@ -557,14 +566,13 @@ canvas {
 }
 
 .modal_div {
-    width: 30%;
-    height: 40%;
-    background-color: white;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    width: 40%;
+    height: 60%;
+}
+
+.modal_div_continue {
+    width: 20%;
+    height: 60%;
 }
 
 .modal_label_title {
@@ -619,4 +627,18 @@ canvas {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.default_not_error {
+    font-size: 14px;
+    font-family: 'Arial';
+    color: red;
+    display: none;
+}
+
+.default_have_error {
+    font-size: 14px;
+    font-family: 'Arial';
+    color: red;
+    display: block;
 }

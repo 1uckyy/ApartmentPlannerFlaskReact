@@ -84,9 +84,9 @@ class MainPage extends Component {
         </header>
   
         <section className="main_capabilities">
-          <ViewCapability src={idea} alt="Идея" text="Реализуй свои идеи"/>
-          <ViewCapability src={plan} alt="Заказ проектировки" text="Закажи проектировку"/>
-          <ViewCapability src={money_income} alt="Стань проектировщиком" text="Стань проектировщиком"/>
+          <ViewCapability src={idea} alt="Идея"/>
+          <ViewCapability src={plan} alt="Заказ проектировки"/>
+          <ViewCapability src={idea} alt="Стань проектировщиком"/>
           <div className="black_line"></div>
         </section>
   

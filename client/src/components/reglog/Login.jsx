@@ -54,31 +54,36 @@ class Login extends Component {
                 <ChangeLang />
             </header>
 
-            <form noValidate onSubmit={this.onSubmit}>
-                <h1 className="h3 mb-3 font-weight-normal">Вход</h1>
-                <div className="form-group">
-                    <label htmlFor="email">Адрес Email</label>
-                    <input type="email"
-                        className="form-control"
-                        name="email"
-                        placeholder="Enter Email"
-                        value={this.state.email}
-                        onChange={this.onChange} />
+            <div className="container" style={{flexGrow:1}}>
+                    <div className="row">
+                        <div className="col-md-6 mt-5 mx-auto" style={{ backgroundColor: "white", borderRadius: "10px", padding: "30px" }}>
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <h1 className="h3 mb-3 font-weight-normal">Вход</h1>
+                                <div className="form-group">
+                                    <label htmlFor="email">Адрес Email</label>
+                                    <input type="email"
+                                        className="form-control"
+                                        name="email"
+                                        placeholder="Введите Email"
+                                        value={this.state.email}
+                                        onChange={this.onChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password">Пароль</label>
+                                    <input type="password"
+                                        className="form-control"
+                                        name="password"
+                                        placeholder="Введите пароль"
+                                        value={this.state.password}
+                                        onChange={this.onChange} />
+                                </div>
+                                <button type="submit" className="btn btn-lg btn-primary">
+                                    Войти
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password">Пароль</label>
-                    <input type="password"
-                        className="form-control"
-                        name="password"
-                        placeholder="Enter Password"
-                        value={this.state.password}
-                        onChange={this.onChange} />
-                </div>
-                            
-                <button type="submit" className="btn btn-lg btn-primary btn-block">
-                    Войти
-                </button>
-            </form>
             </>
         )
     }

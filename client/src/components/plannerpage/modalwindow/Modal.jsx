@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import close from '../../../images/PlannerPage/close.png';
+
 import './Modal.css';
 
 export default class Modal extends React.Component {
@@ -22,7 +24,7 @@ export default class Modal extends React.Component {
     render() {
         return ReactDOM.createPortal(
             <div className="modal">
-                <button className="modal__close-button" onClick={this.props.onClose}>Закрыть</button>
+                <button className="modal__close-button" onClick={this.props.onClose}><img src={close} alt=""/></button>
                 {this.props.children}
             </div>,
             this.root
