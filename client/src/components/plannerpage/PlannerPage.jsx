@@ -21,6 +21,12 @@ import chair from '../../images/PlannerPage/FurnitureItems/chair.png';
 import flower from '../../images/PlannerPage/FurnitureItems/flower.png';
 import sofa from '../../images/PlannerPage/FurnitureItems/sofa.png';
 import table from '../../images/PlannerPage/FurnitureItems/table.png';
+import kreslo from '../../images/PlannerPage/FurnitureItems/kreslo.png';
+import plita from '../../images/PlannerPage/FurnitureItems/plita.png';
+import toilet from '../../images/PlannerPage/FurnitureItems/toilet.png';
+import watch from '../../images/PlannerPage/FurnitureItems/watch.png';
+import rakovina from '../../images/PlannerPage/FurnitureItems/rakovina.png';
+import tumb from '../../images/PlannerPage/FurnitureItems/tumb.png';
 
 //functions
 import { login, register } from '../reglog/UserFunctions'
@@ -391,6 +397,12 @@ class PlannerPage extends Component {
                     <FurnitureItem src={flower} number={3}/>
                     <FurnitureItem src={sofa} number={4}/>
                     <FurnitureItem src={chair} number={5}/>
+                    <FurnitureItem src={kreslo} number={6}/>
+                    <FurnitureItem src={plita} number={7}/>
+                    <FurnitureItem src={rakovina} number={8}/>
+                    <FurnitureItem src={toilet} number={9}/>
+                    <FurnitureItem src={tumb} number={10}/>
+                    <FurnitureItem src={watch} number={11}/>
                 </div>
             </div>
         </section>
