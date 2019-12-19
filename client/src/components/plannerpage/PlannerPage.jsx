@@ -167,9 +167,9 @@ class PlannerPage extends Component {
         script.setAttribute("id", "LogicScript");
     
         if(this.props.match.params.id)
-            script.src = "../LogicScript.js";
+            script.src = "../../LogicScript.js";
         else
-            script.src = "LogicScript.js";
+            script.src = "../LogicScript.js";
 
         script.async = true;
     
