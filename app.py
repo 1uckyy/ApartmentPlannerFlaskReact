@@ -176,7 +176,7 @@ def register():
         return jsonify({'result' : result})
     #else return error
     else:
-        return jsonify({"error":"Already have such an email"})
+        return jsonify({"error":"Такой email уже зарегистрирован."})
 
 # login
 @app.route('/users/login', methods=['POST'])
@@ -197,9 +197,9 @@ def login():
             })
             result = jsonify({'token':access_token})
         else:
-            result = jsonify({"error":"Invalid username and password"})
+            result = jsonify({"error":"Неверный пароль."})
     else:
-        result = jsonify({"result":"No results found"})
+        result = jsonify({"error":"Такого email не найдено."})
     return result 
 
 # run

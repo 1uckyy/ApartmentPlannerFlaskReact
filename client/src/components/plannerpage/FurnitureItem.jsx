@@ -6,7 +6,7 @@ class FurnitureItem extends Component {
         var count = 1;
         var furnitureItemsContainer = document.querySelector('div.furniture_items_container');
         var node = furnitureItemsContainer.firstChild;
-        while(count !== 6) {
+        while(count !== 12) {
             if(count == this.props.number) {
                 node.querySelector('div.circle_add').setAttribute("onclick", "add('" + this.props.src + "', 0, 0, 1000, 1000, 0)");
             }

@@ -90,11 +90,10 @@ class PlannerPage extends Component {
         }
 
         login(user).then(res => {
-            if (!res.error) {
-                this.setState({
-                    auth: true
-                })
-            }
+            if (!res.error)
+                this.props.history.push(`/profile`)
+            else 
+                alert(res.error);
         })
 
         setTimeout(() => {

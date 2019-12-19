@@ -36,7 +36,10 @@ class Registration extends Component {
         }
 
         register(newUser).then(res => {
-            this.props.history.push(`/login`)
+            if (!res.error)
+                this.props.history.push(`/login`)
+            else 
+                alert(res.error);
         })
     }
 
