@@ -29,7 +29,7 @@ root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "client", "build
 
 @app.route('/<path:path>', methods=['GET'])
 def static_proxy(path):
-    return send_from_directory(root, path)
+    return send_from_directory(root, 'index.html')
 
 @app.route('/', methods=['GET'])
 def redirect_to_index():
