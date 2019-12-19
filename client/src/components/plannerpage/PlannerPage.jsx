@@ -14,6 +14,7 @@ import '../../css/PlannerPageStyle.css';
 //images
 import recycle_bin from '../../images/PlannerPage/recycle_bin.png';
 import search from '../../images/PlannerPage/search.png';
+import remove from '../../images/PlannerPage/remove.png';
 
 //images furniture items
 import bed from '../../images/PlannerPage/FurnitureItems/bed.png';
@@ -294,10 +295,7 @@ class PlannerPage extends Component {
             item.onmouseout = () => { strokeRect = false }
         
             let deleteItem = document.createElement("img");
-            if(project_name_name != "empty")
-                deleteItem.setAttribute("src", "../images/remove.png");
-            else
-                deleteItem.setAttribute("src", "images/remove.png");
+            deleteItem.setAttribute("src", "`+remove+`");
             deleteItem.setAttribute("class", "delete_item_img");
             deleteItem.setAttribute("onclick", "deleteItem(" + count + ")");
         
