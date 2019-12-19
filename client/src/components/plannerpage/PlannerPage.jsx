@@ -71,9 +71,12 @@ class PlannerPage extends Component {
         }
 
         register(newUser).then(res => {
+            if (!res.error)
             this.setState({
                 have_acc: true
             })
+            else 
+                alert(res.error);
         })
     }
 
@@ -91,7 +94,9 @@ class PlannerPage extends Component {
 
         login(user).then(res => {
             if (!res.error)
-                this.props.history.push(`/profile`)
+                this.setState({
+                    auth: true
+                })
             else 
                 alert(res.error);
         })
