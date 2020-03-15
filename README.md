@@ -1,5 +1,5 @@
 # Apartment Planner
-Веб-приложение для планировки помещения. Демо: https://apartment-planner.herokuapp.com/
-# Особенности
-- клиентская часть на React
-- серверная часть на Python(Flask)
+Web application for floor planning. Demo: https://apartment-planner.herokuapp.com/
+# Features
+- React on client side
+- Python(Flask) on server side
